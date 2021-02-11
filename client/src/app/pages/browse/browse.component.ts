@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpService } from '../../services/http/http.service';
 
 @Component({
   selector: 'app-browse',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BrowseComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpService: HttpService) { }
 
   ngOnInit(): void {
+    this.httpService.posts()
+    .subscribe(response => console.log(response));
   }
 
 }

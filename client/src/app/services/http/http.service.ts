@@ -14,4 +14,8 @@ export class HttpService {
   public submit(data): Observable<any> {
     return this.httpClient.post(this.serverAddr + '/api/new', data);
   }
+
+  public posts(): Observable<any> {
+    return this.httpClient.get(this.serverAddr + '/api/posts');
+  }
 }
