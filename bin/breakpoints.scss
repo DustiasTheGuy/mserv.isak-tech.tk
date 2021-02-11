@@ -1,0 +1,11 @@
+@media only screen and (min-width: 1700px) { // on screens above 1700px width
+}
+
+@media only screen and (min-width: 1300px) and (max-width: 1700px) { // on screens between 1700px and 1300px width
+}
+
+@media only screen and (min-width: 900px) and (max-width: 1300px) { // on screens between 1300px and 900px width
+}
+
+@media only screen and (max-width: 900px) { // on screens below 900px width
+}

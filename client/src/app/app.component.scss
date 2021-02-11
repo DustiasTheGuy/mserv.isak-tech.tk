@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    #main {
+        height: 100%;
+        flex-grow: 1;
+        transition: margin-left 225ms linear;
+        z-index: 1;
+        margin-top: 60px;
+    }
+}

@@ -1,0 +1,8 @@
+<section class="container">
+    <app-sidenav></app-sidenav>
+
+    <main id="main" [ngClass]="{ 'open': menuOpen }" main>
+        <app-navigation></app-navigation>
+        <router-outlet></router-outlet>
+    </main>
+</section>
