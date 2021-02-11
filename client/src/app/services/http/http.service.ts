@@ -8,7 +8,7 @@ import { iHttpResponse } from '../../interfaces/http.interface';
 })
 
 export class HttpService {
-  private environment: boolean = true;
+  private environment: boolean = false; // production?
   private serverAddr: string;
 
   constructor(private httpClient: HttpClient) {

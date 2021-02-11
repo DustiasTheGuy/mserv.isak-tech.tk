@@ -21,8 +21,9 @@ func main() {
 	})
 
 	apiGroup := app.Group("/api", apiMiddleware)
-	apiGroup.Post("/new", api.NewPostHandler)
-	apiGroup.Get("/posts", api.ReadPostsHandler)
+	apiGroup.Post("/new", api.CreateOneController)
+	apiGroup.Get("/posts", api.ReadManyController)
+	apiGroup.Get("/post/:ID", api.ReadOneController)
 
 	app.Listen(":8082")
 }
