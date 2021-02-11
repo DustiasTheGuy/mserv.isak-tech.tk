@@ -31,7 +31,8 @@ func NewPostHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	insert, err := db.Query(fmt.Sprintf("INSERT INTO posts(body) VALUES('%s')", body.Body))
+	sql := "INSERT INTO posts (body) VALUES (?)"
+	res, err := db.Exec(sql, body.Body)
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
@@ -41,12 +42,20 @@ func NewPostHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	db.Close()
-	defer insert.Close()
+	lastID, err := res.LastInsertId()
 
+	if err != nil {
+		return c.JSON(routes.HTTPResponse{
+			Message: fmt.Sprint(err),
+			Success: false,
+			Data:    nil,
+		})
+	}
+
+	defer db.Close()
 	return c.JSON(routes.HTTPResponse{
 		Message: "HelloWorld",
 		Success: true,
-		Data:    nil,
+		Data:    lastID,
 	})
 }

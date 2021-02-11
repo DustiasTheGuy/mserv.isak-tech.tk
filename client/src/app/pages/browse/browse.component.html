@@ -1,1 +1,18 @@
-<p>browse works!</p>
+<section *ngIf="render">
+    <div class="table">
+        <div class="table-head">
+            <div class="table-row">
+                <p>ID</p>
+                <p>DATE</p>
+                <p>BODY</p>
+            </div>
+        </div>
+        <div class="table-body">
+            <div class="table-row" *ngFor="let post of posts">
+                <p>{{post._id}}</p>
+                <p>{{post.date | date: 'medium'}}</p>
+                <p>{{post.body}}</p>
+            </div>
+        </div>
+    </div>
+</section>

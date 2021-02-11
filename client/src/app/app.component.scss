@@ -5,6 +5,7 @@
 
     #main {
         height: 100%;
+        max-width: 100%;
         flex-grow: 1;
         transition: margin-left 225ms linear;
         z-index: 1;

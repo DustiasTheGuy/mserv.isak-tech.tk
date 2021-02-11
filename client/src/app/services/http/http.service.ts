@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { iHttpResponse } from '../../interfaces/http.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class HttpService {
-  private serverAddr: string = 'http://localhost:8082';
+  private environment: boolean = true;
+  private serverAddr: string;
 
-  constructor(private httpClient: HttpClient) {}
-
-  public submit(data): Observable<any> {
-    return this.httpClient.post(this.serverAddr + '/api/new', data);
+  constructor(private httpClient: HttpClient) {
+    this.serverAddr = this.environment ? 'https://mserv.isak-tech.tk' : 'http://localhost:8082'
   }
 
-  public posts(): Observable<any> {
-    return this.httpClient.get(this.serverAddr + '/api/posts');
+  public submit(data): Observable<iHttpResponse> {
+    return this.httpClient.post<iHttpResponse>(this.serverAddr + '/api/new', data);
+  }
+
+  public posts(): Observable<iHttpResponse> {
+    return this.httpClient.get<iHttpResponse>(this.serverAddr + '/api/posts');
   }
 }
