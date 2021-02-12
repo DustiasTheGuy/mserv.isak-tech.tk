@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="table-body">
-            <div class="table-row" *ngFor="let post of posts">
+            <div class="table-row" *ngFor="let post of posts" [routerLink]="'/paste/' + post._id">
                 <p>{{post._id}}</p>
                 <p>{{post.date | date: 'medium'}}</p>
                 <p>{{post.body}}</p>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http/http.service';
+import { StateService } from '../../services/state/state.service';
 import { iPost } from '../../interfaces/post.interface';
 import { iHttpResponse } from '../../interfaces/http.interface';
 
@@ -13,13 +14,15 @@ export class BrowseComponent implements OnInit {
   public posts: iPost[];
   public render: boolean = false;
 
-  constructor(private httpService: HttpService) { }
+  constructor(
+    private httpService: HttpService, 
+    private stateService: StateService) {}
 
   ngOnInit(): void {
-    this.httpService.posts()
-    .subscribe((response: iHttpResponse) => 
-    this.posts = response.success ? response.data : [],
-    (err) => console.error(err), () => this.render = true);
+    this.stateService.getPostsState()
+    .subscribe(response => this.posts = response);
+    this.stateService.updatePostsState();
+    this.render = true;
   }
 
 }

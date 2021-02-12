@@ -1,1 +1,8 @@
-<p>paste works!</p>
+<section class="body" *ngIf="post">
+    <header>
+        <span>{{ post._id }}</span>
+        <span>{{ post.date | date: 'medium' }}</span>
+    </header>
+    
+    <div [innerHTML]="post.body"></div>
+</section>

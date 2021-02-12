@@ -7,7 +7,7 @@ import { BrowseComponent } from './pages/browse/browse.component';
 const routes: Routes = [
   { path: '', component: BrowseComponent },
   { path: 'new', component: NewComponent },
-  { path: 'paste/:id', component: PasteComponent }
+  { path: 'paste/:ID', component: PasteComponent }
 ];
 
 @NgModule({
