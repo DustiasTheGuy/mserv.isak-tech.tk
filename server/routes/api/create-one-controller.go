@@ -2,8 +2,8 @@ package api
 
 import (
 	"fmt"
-	"mserv/database"
-	"mserv/routes"
+	"paste/database"
+	"paste/routes"
 
 	"github.com/gofiber/fiber/v2"
 )

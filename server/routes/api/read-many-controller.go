@@ -2,15 +2,14 @@ package api
 
 import (
 	"fmt"
-	"mserv/database"
-	"mserv/routes"
+	"paste/database"
+	"paste/routes"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 // ReadManyController is a controller that can be accessed through /api/posts
 func ReadManyController(c *fiber.Ctx) error {
-
 	posts, err := getPosts()
 
 	if err != nil {

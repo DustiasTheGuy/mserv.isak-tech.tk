@@ -1,15 +1,12 @@
 package main
 
 import (
-	"mserv/routes/api"
+	"paste/middleware"
+	routes "paste/routes/api"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
-
-func apiMiddleware(c *fiber.Ctx) error {
-	return c.Next()
-}
 
 func main() {
 	app := fiber.New()
@@ -20,10 +17,10 @@ func main() {
 		return c.SendFile("index.html")
 	})
 
-	apiGroup := app.Group("/api", apiMiddleware)
-	apiGroup.Post("/new", api.CreateOneController)
-	apiGroup.Get("/posts", api.ReadManyController)
-	apiGroup.Get("/post/:ID", api.ReadOneController)
+	api := app.Group("/api", middleware.ApiMiddleware)
+	api.Post("/new", routes.CreateOneController)   // add new post
+	api.Get("/posts", routes.ReadManyController)   // get all posts
+	api.Get("/post/:ID", routes.ReadOneController) // get one post
 
 	app.Listen(":8082")
 }

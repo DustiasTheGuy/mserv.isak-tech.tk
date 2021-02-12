@@ -1,4 +1,4 @@
-module mserv
+module paste
 
 go 1.15
 
