@@ -12,11 +12,12 @@ section {
         padding: 2em;
     }
 
-    div {
+    div.body {
         white-space: pre-wrap;
         background-color: rgb(216, 216, 216);
         flex-grow: 1;
         padding: 2em;
         max-width: 100%;
+        overflow-wrap: break-word;
     }
 }

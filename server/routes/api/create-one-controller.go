@@ -2,7 +2,6 @@ package api
 
 import (
 	"fmt"
-	"paste/database"
 	"paste/routes"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,7 +9,10 @@ import (
 
 // CreateOneController is a controller that can be accessed through /api/new
 func CreateOneController(c *fiber.Ctx) error {
+	connection := CreateConnection()
 	body := new(Post)
+
+	body.IP = c.Hostname()
 
 	if err := c.BodyParser(body); err != nil {
 		return c.JSON(routes.HTTPResponse{
@@ -20,7 +22,7 @@ func CreateOneController(c *fiber.Ctx) error {
 		})
 	}
 
-	lastID, err := savePost(body)
+	lastID, err := connection.savePost(body)
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
@@ -31,34 +33,8 @@ func CreateOneController(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(routes.HTTPResponse{
-		Message: "HelloWorld",
+		Message: "New Post Created",
 		Success: true,
 		Data:    lastID,
 	})
-}
-
-// save a new post to the database
-// first return value defaults to 0 if an error has occured
-func savePost(body *Post) (int64, error) {
-	db, err := database.Connect()
-
-	if err != nil {
-		return 0, err
-	}
-
-	sql := "INSERT INTO posts (body) VALUES (?)"
-	res, err := db.Exec(sql, body.Body)
-
-	if err != nil {
-		return 0, err
-	}
-
-	lastID, err := res.LastInsertId()
-
-	if err != nil {
-		return 0, err
-	}
-
-	defer db.Close()
-	return lastID, nil
 }

@@ -20,7 +20,7 @@ export class NewComponent implements OnInit {
   }
 
   submit() {
-    this.httpService.submit({ _id: 0, body: this.body, date: null })
+    this.httpService.submit({ body: this.body })
     .subscribe((response: iHttpResponse) => this.onResponse(response));
   }
 

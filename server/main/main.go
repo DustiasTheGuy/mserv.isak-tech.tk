@@ -17,7 +17,7 @@ func main() {
 		return c.SendFile("index.html")
 	})
 
-	api := app.Group("/api", middleware.ApiMiddleware)
+	api := app.Group("/api", middleware.APIMiddleware)
 	api.Post("/new", routes.CreateOneController)   // add new post
 	api.Get("/posts", routes.ReadManyController)   // get all posts
 	api.Get("/post/:ID", routes.ReadOneController) // get one post

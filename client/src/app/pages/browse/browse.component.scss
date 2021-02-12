@@ -1,6 +1,5 @@
 section {
     width: 100%;
-    padding: 1em;
 
     .table {
         display: flex;
@@ -9,23 +8,29 @@ section {
 
         .table-head {
             font-weight: bold;
+            .table-row {
+                p {
+                    padding: 1em;
+                }
+            }
         }
 
         
         .table-body { 
             .table-row {
                 &:hover {
-                    background-color: rgb(202, 202, 202);
+                    background-color: rgb(235, 235, 235);
+                    cursor: pointer;
                 }
             }
         }
 
         .table-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 3fr;
+            grid-template-columns: 1fr 1fr 5fr;
 
             width: 100%;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid rgb(224, 224, 224);
 
             p {
                 white-space: nowrap;
@@ -33,8 +38,9 @@ section {
                 text-overflow: ellipsis;
                 display: inline-block;
                 margin: 0;
-                padding: 4px;
-                
+                font-size: 12px;
+                padding: 0 1em;
+
                 &:nth-child(2) {
                     border-left: none;
                     border-right: none;

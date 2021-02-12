@@ -16,7 +16,7 @@ export class HttpService {
     this.serverAddr = this.environment ? 'https://paste.isak-tech.tk' : 'http://localhost:8082'
   }
 
-  public submit(data: iPost): Observable<iHttpResponse> {
+  public submit(data): Observable<iHttpResponse> {
     return this.httpClient.post<iHttpResponse>(this.serverAddr + '/api/new', data);
   }
 
