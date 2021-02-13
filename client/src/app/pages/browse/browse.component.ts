@@ -13,6 +13,9 @@ import { iHttpResponse } from '../../interfaces/http.interface';
 export class BrowseComponent implements OnInit {
   public posts: iPost[];
   public render: boolean = false;
+  public settings = {
+    rowPadding: 0
+  }
 
   constructor(
     private httpService: HttpService, 

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"paste/routes"
 	"strconv"
 
@@ -15,7 +14,7 @@ func ReadOneController(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
-			Message: fmt.Sprint(err),
+			Message: "Internal Server Error - Invalid Parameter",
 			Success: false,
 			Data:    nil,
 		})
@@ -25,7 +24,7 @@ func ReadOneController(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
-			Message: fmt.Sprint(err),
+			Message: "Internal Server Error - Database Error",
 			Success: false,
 			Data:    nil,
 		})
