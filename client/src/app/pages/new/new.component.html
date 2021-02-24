@@ -1,6 +1,32 @@
 <section>
     <form>
-        <textarea name="body" id="body" [(ngModel)]="body"></textarea>
-        <button (click)="submit()">Submit</button>
+        <div class="form-group">
+            <label for="title">
+                <span>Title</span>
+                <span>[optional]</span>
+            </label>
+            <input type="text" name="title" id="title" [(ngModel)]="formFields.title">
+        </div>
+        <div class="form-group">
+            <label for="tag">
+                <span>Tag</span>
+                <span>[required]</span>
+            </label>
+            <input type="text" name="tag" id="tag" [(ngModel)]="tag" placeholder="Press [Enter] To Add Tag" (keyup.enter)="appendTag(tag)" [disabled]="formFields.tags.length >= 5">
+
+            <div class="tags">
+                <span *ngFor="let tag of formFields.tags; let i = index" (click)="formFields.tags.splice(i, 1)">{{tag}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="body">
+                <span>Body</span>
+                <span>[required]</span>
+            </label>
+            <textarea type="text" name="body" id="body" [(ngModel)]="formFields.body"></textarea>
+        </div>
+        <div class="button-group">
+            <button type="button" (click)="submit()">Submit</button>
+        </div>
     </form>
-</section>
+</section>  

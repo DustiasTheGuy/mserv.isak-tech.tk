@@ -27,4 +27,12 @@ export class HttpService {
   public post(ID: number): Observable<iHttpResponse> {
     return this.httpClient.get<iHttpResponse>(this.serverAddr + '/api/post/' + ID);
   }
+
+  public signIn(password: string): Observable<iHttpResponse> {
+    return this.httpClient.post<iHttpResponse>(this.serverAddr + '/api/sign-in', { password })
+  }
+
+  public pageinate(page: number, limit: number): Observable<iHttpResponse> {
+    return this.httpClient.get<iHttpResponse>(this.serverAddr + '/api/paginate/' + page + '/' + limit)
+  }
 }

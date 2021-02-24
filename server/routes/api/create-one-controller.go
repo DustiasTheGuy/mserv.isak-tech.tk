@@ -10,13 +10,16 @@ import (
 // CreateOneController is a controller that can be accessed through /api/new
 func CreateOneController(c *fiber.Ctx) error {
 	connection := CreateConnection()
-	body := new(Post)
+	defer connection.Connection.Close()
 
+	body := new(Post)
 	body.IP = c.Hostname()
+
+	fmt.Println(body)
 
 	if err := c.BodyParser(body); err != nil {
 		return c.JSON(routes.HTTPResponse{
-			Message: fmt.Sprint(err),
+			Message: "Bad JSON formatting",
 			Success: false,
 			Data:    nil,
 		})
@@ -24,9 +27,17 @@ func CreateOneController(c *fiber.Ctx) error {
 
 	lastID, err := connection.savePost(body)
 
+	if err := connection.insertTags(lastID, body.Tags); err != nil {
+		return c.JSON(routes.HTTPResponse{
+			Message: "Internal Server Error",
+			Success: false,
+			Data:    nil,
+		})
+	}
+
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
-			Message: fmt.Sprint(err),
+			Message: "Internal Server Error",
 			Success: false,
 			Data:    nil,
 		})

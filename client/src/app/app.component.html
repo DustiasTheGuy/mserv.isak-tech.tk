@@ -3,6 +3,12 @@
 
     <main id="main" [ngClass]="{ 'open': menuOpen }" main>
         <app-navigation></app-navigation>
-        <router-outlet></router-outlet>
+
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
     </main>
+
 </section>
+
+<app-footer></app-footer>

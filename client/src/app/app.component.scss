@@ -10,5 +10,66 @@
         transition: margin-left 225ms linear;
         z-index: 1;
         margin-top: 60px;
+        // background-image: url('/assets/bg-main.png');
+        // background-position: center center;
+        // background-repeat: no-repeat;
+        // background-size: cover;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        background-color: rgb(221, 221, 221);
+        .content {
+            width: 65%;
+            border: 1px solid lightgray;
+            background-color: rgb(255, 255, 255);
+            border-radius: 6px;
+            margin: 1em;
+            z-index: 3;
+        }
+    }
+}
+
+@media only screen and (max-width: 1700px) and (min-width: 1300px) {
+    // width: 75%;
+    .container {
+        #main {
+            .content {
+                width: 75%;
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 1300px) and (min-width: 999px) {
+    // width: 83%;
+    .container {
+        #main {
+            .content {
+                width: 83%;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 999px) and (min-width: 780px) {
+    // width: 89%;
+    .container {
+        #main {
+            .content {
+                width: 89%;   
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    // width: 100%;
+    .container {
+        #main {
+            .content {
+                width: 100%;
+            }
+        }
     }
 }

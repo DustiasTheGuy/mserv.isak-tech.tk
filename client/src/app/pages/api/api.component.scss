@@ -1,0 +1,109 @@
+.prompt {
+    min-height: 100vh;
+    width: 100%;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .prompt-content {
+        background-color: #fff;
+        width: 100%;
+        padding: 1em;
+        filter: none;
+        
+        input, button {
+            padding: .6em;
+            display: block;
+        }
+
+        input {
+            flex-grow: 1;
+            margin: 0 auto;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        button {
+            margin: 0 0 0 auto;
+            min-width: 140px;
+        }
+    }
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+
+    div {
+        width: 100%;
+        padding: 2em;
+
+        &:not(:last-of-type) {
+            border-bottom: 1px solid rgb(221, 221, 221);
+        }
+
+        input {
+            width: 0;
+            height: 0;
+
+        }
+
+        pre {
+            //white-space: pre-line;
+            box-shadow: inset 0 0 10px rgb(175, 175, 175);
+            padding: 2em;
+            transition: all 225ms linear;
+            cursor: copy;
+            position: relative;
+            white-space: pre-line;
+            
+            &:hover {
+                background-color: lightgray;
+            }
+
+            span {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: all 200ms linear;
+                text-transform: uppercase;
+                font-weight: bold;
+                color: green;
+                font-size: 22px;
+            }
+
+            span.visible {
+                opacity: 1;
+            }
+        }
+
+        h3 {
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            span {
+                display: inline-block;
+
+                &:first-of-type {
+                    cursor: copy;
+
+                    &:hover {
+                        color: rgb(61, 61, 211);
+                    }
+                }
+
+                &:last-of-type {
+                    margin-left: 5px;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+
+

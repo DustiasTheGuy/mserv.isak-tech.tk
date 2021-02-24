@@ -17,15 +17,34 @@ export class BrowseComponent implements OnInit {
     rowPadding: 0
   }
 
+  public paginationData = {
+    page: 0,
+    limit: 25,
+    pages: 0,
+    count: 0
+  }
+
   constructor(
     private httpService: HttpService, 
     private stateService: StateService) {}
 
   ngOnInit(): void {
-    this.stateService.getPostsState()
-    .subscribe(response => this.posts = response);
-    this.stateService.updatePostsState();
+    this.paginate(this.paginationData.page, this.paginationData.limit);
+
     this.render = true;
+    setTimeout(() => console.log(this.posts), 3000)
   }
 
+  paginate(page, limit) {
+
+    this.httpService.pageinate(page, limit)
+    .subscribe((response: iHttpResponse) => {
+      if(response.success) {
+        this.paginationData.page = page;
+        this.paginationData.pages = response.data.pages;
+        this.paginationData.count = response.data.count;
+        this.posts = response.data.posts; 
+      }   
+    });
+  }
 }

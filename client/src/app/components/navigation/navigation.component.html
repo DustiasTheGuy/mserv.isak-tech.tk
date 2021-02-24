@@ -1,7 +1,6 @@
 <nav>
-    <div class="bars" [ngClass]="{ 'open': menuOpen }" (click)="stateService.updateSideNavState(!menuOpen)">
-        <span></span>
-        <span></span>
-        <span></span>
+    <div class="content">
+        <img routerLink="/" src="/assets/logo-nav.png" alt="">
+        <i [ngClass]="{ 'fas': true, 'fa-bars': !menuOpen, 'fa-times': menuOpen, 'open': menuOpen }" (click)="stateService.updateSideNavState(!menuOpen)"></i>
     </div>
 </nav>

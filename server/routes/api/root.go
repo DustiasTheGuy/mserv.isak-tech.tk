@@ -6,8 +6,10 @@ import (
 
 // Post is a struct for dealing with new Post
 type Post struct {
-	ID   uint      `json:"_id"`
-	Body string    `json:"body"`
-	Date time.Time `json:"date"`
-	IP   string    `json:"ip"`
+	ID    int64     `json:"id"`
+	Title string    `json:"title"`
+	Body  string    `json:"body"`
+	Date  time.Time `json:"date"`
+	IP    string    `json:"-"`
+	Tags  []string  `json:"tags"`
 }

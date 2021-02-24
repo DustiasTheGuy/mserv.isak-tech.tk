@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StateService } from './services/state/state.service';
 
 @Component({
@@ -7,11 +7,14 @@ import { StateService } from './services/state/state.service';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   public menuOpen: boolean = false;
 
   constructor(private stateService: StateService) {
     this.stateService.getSideNavState()
     .subscribe(state => this.menuOpen = state);
+  }
+
+  ngOnInit() {
   }
 }

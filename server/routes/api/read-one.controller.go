@@ -11,6 +11,7 @@ import (
 func ReadOneController(c *fiber.Ctx) error {
 	connection := CreateConnection()
 	ID, err := strconv.ParseInt(c.Params("ID"), 10, 32)
+	defer connection.Connection.Close()
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
@@ -24,7 +25,7 @@ func ReadOneController(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
-			Message: "Internal Server Error - Database Error",
+			Message: "Internal Server Error",
 			Success: false,
 			Data:    nil,
 		})

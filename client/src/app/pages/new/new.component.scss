@@ -1,22 +1,60 @@
 section {
-    width: 100%;
-    height: 100%;
-
+    padding: 2em;
     form {
-        width: inherit;
-        height: inherit;
-        padding: 2em;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        display: block;
 
-        textarea {
-            width: 100%;
-            height: 80%;
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 8px;
+
+            span {
+                background-color: rgb(255, 255, 255);
+                border: 1px solid lightgray;
+                color: rgb(39, 39, 39);
+                display: inline-block;
+                padding: 6px 12px;
+                cursor: pointer;
+
+                &:not(:last-of-type) {
+                    margin-right: 8px;
+                }
+            }
         }
 
-        button {
-            display: block;
-            margin: 20px 0 0 auto;
-            width: 200px;
-            padding: 1em;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin: 25px 0;
+
+            label {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+            }
+
+            input, textarea {
+                font-size: 17px;
+                padding: 8px;
+                border: 1px solid rgb(173, 173, 173);
+                outline: none;
+            }
+
+            textarea {
+                height: 300px;
+            }
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            button {
+                min-width: 140px;
+                padding: 9px;
+            }
         }
     }
 }

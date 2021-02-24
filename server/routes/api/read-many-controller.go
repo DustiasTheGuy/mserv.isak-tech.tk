@@ -11,10 +11,12 @@ import (
 func ReadManyController(c *fiber.Ctx) error {
 	connection := CreateConnection()
 	posts, err := connection.getPosts()
+	defer connection.Connection.Close()
 
 	if err != nil {
+		fmt.Println(err)
 		return c.JSON(routes.HTTPResponse{
-			Message: fmt.Sprint(err),
+			Message: "Internal Server Error",
 			Success: false,
 			Data:    nil,
 		})

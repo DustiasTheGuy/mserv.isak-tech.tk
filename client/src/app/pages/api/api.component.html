@@ -1,0 +1,20 @@
+<section *ngIf="render">
+    <div *ngFor="let x of routes; let i = index">
+        <h3>
+            <span [cdkCopyToClipboard]="x.path" title="Copy">{{x.path}}</span>
+            <span>{{x.method}}</span>
+        </h3>
+        
+        <pre *ngIf="x.data" title="Copy" [cdkCopyToClipboard]="x.data">
+            {{x.data | json}}
+        </pre>
+    </div>
+</section>
+
+<div class="prompt" *ngIf="!render">
+    <div class="prompt-content">
+        <h1>Please Sign In</h1>
+        <input type="password" placeholder="password" [(ngModel)]="password" (keyup.enter)="signIn(password)">
+        <button (click)="signIn(password)">Submit</button>
+    </div>
+</div>

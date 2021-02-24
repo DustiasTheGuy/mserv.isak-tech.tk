@@ -1,53 +1,72 @@
 nav {
     width: 100%;
-    padding: 1em;
-    background-color: #192122;
+    background-color: #333;
     color: #d3d3d3;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 4;
     height: 60px;
     display: flex;
-    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgb(221, 221, 221);
+
+    .content {
+        width: 65%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .fas {
+            transition: margin-right 225ms linear;
+            font-size: 34px;
+            margin-right: 0;
+            cursor: pointer;
+        }
         
-    .bars.open {
-        margin-left: 260px;
-
-        span {
-            &:nth-child(1) {
-                width: 25%;
-            }
-
-            &:nth-child(2) {
-                width: 50%;
-            }
-
-            &:nth-child(3) {
-                width: 70%;
-            }
+        img {
+            max-height: 75%;
+            object-fit: contain;
+            outline: none;
+            cursor: pointer;
         }
     }
+}
 
-    .bars {
-        transition: margin-left 225ms linear;
-        position: relative;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-        width: 38px;
-
-        &:hover {
-            span {
-                background-color: #919191;
-            }
+@media only screen and (max-width: 1700px) and (min-width: 1300px) {
+    // width: 75%;
+    nav {
+        .content {
+            width: 75%;
         }
-        span {
-            height: 3px;
-            background-color: #d3d3d3;
+    }
+}
+
+
+@media only screen and (max-width: 1300px) and (min-width: 999px) {
+    // width: 83%;
+    nav {
+        .content {
+            width: 83%;
+        }
+    }
+}
+
+@media only screen and (max-width: 999px) and (min-width: 780px) {
+    // width: 89%;
+    nav {
+        .content {
+            width: 89%;
+        }
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    // width: 100%;
+    nav {
+        .content {
             width: 100%;
-            transition: all 200ms ease-in;
+            padding: 0 1.5em;
         }
     }
 }

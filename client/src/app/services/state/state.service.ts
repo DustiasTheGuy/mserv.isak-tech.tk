@@ -27,6 +27,9 @@ export class StateService {
     this.httpService.posts()
     .subscribe((response: iHttpResponse) => response.success ? 
     this.postsSubject.next(response.data) : this.postsSubject.next([]));
+    
+    this.httpService.posts()
+    .subscribe(response => console.log(response));
   }
 
   public getPostsState(): Observable<iPost[]> {

@@ -1,22 +1,27 @@
 <section *ngIf="render">
-    <div class="settings">
-        <input type="range" [(ngModel)]="settings.rowPadding" min="0" max="50">
-    </div>
-
     <div class="table">
         <div class="table-head">
-            <div class="table-row" [ngStyle]="{ 'padding': settings.rowPadding + 'px' }">
+            <div class="table-row">
                 <p>ID</p>
                 <p>DATE</p>
-                <p>BODY</p>
+                <p>TITLE</p>
+                <p>TAGS</p>
             </div>
         </div>
         <div class="table-body">
-            <div class="table-row" *ngFor="let post of posts" [routerLink]="'/paste/' + post._id" [ngStyle]="{ 'padding': settings.rowPadding + 'px' }">
-                <p>{{post._id}}</p>
+            <div class="table-row" *ngFor="let post of posts" [routerLink]="'/paste/' + post.id">
+                <p>{{post.id}}</p>
                 <p>{{post.date | date: 'medium'}}</p>
-                <p>{{post.body}}</p>
+                <p>{{post.title}}</p>
+                <p *ngIf="post.tags != null" class="tags">
+                    <span *ngFor="let tag of post.tags">{{tag}}</span>
+                </p>
             </div>
         </div>
+    </div>
+
+    <div class="actions">
+        <button [disabled]="paginationData.page <= 0" (click)="paginate(paginationData.page - 1, paginationData.limit)">Back</button>
+        <button [disabled]="paginationData.page >= paginationData.pages" (click)="paginate(paginationData.page + 1, paginationData.limit)">Forward</button>
     </div>
 </section>
