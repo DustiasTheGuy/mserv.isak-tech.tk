@@ -10,7 +10,7 @@ import (
 // Connect to mysql database
 func Connect() (*sql.DB, error) {
 
-	db, err := sql.Open("mysql", "root:password@/flask_db?parseTime=true")
+	db, err := sql.Open("mysql", "root:password@/isak_tech_paste?parseTime=true")
 	if err != nil {
 		return nil, err
 	}
