@@ -12,3 +12,10 @@ func NewRequestController(c *fiber.Ctx) error {
 
 	return nil
 }
+
+/*
+	ID,
+	Created,
+	IP,
+	Website
+*/
