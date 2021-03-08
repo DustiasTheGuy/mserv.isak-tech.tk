@@ -2,6 +2,7 @@ package main
 
 import (
 	"paste/middleware"
+	an "paste/routes/analytics"
 	routes "paste/routes/api"
 
 	"github.com/gofiber/fiber/v2"
@@ -25,5 +26,9 @@ func main() {
 	api.Put("/update", routes.UpdateOneHandler)                  // update a single row
 	api.Post("/sign-in", routes.SignInController)                // sign in
 	api.Get("/paginate/:PAGE/:LIMIT", routes.PaginateController) // grab posts by page & limit
+
+	analytics := api.Group("/an")
+	analytics.Get("/", an.NewRequestController)
+
 	app.Listen(":8082")
 }

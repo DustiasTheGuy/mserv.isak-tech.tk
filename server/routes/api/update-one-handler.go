@@ -9,7 +9,7 @@ import (
 
 func UpdateOneHandler(c *fiber.Ctx) error {
 	var body Post
-	connection := CreateConnection()
+	connection := CreateConnection("isak_tech_paste")
 	defer connection.Connection.Close()
 
 	if err := c.BodyParser(&body); err != nil {

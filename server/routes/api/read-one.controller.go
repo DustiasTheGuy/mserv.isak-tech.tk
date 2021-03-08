@@ -9,7 +9,7 @@ import (
 
 // ReadOneController is a controller that can be accessed through /api/post/:ID
 func ReadOneController(c *fiber.Ctx) error {
-	connection := CreateConnection()
+	connection := CreateConnection("isak_tech_paste")
 	ID, err := strconv.ParseInt(c.Params("ID"), 10, 32)
 	defer connection.Connection.Close()
 

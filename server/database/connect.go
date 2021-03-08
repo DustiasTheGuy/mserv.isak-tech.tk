@@ -2,15 +2,16 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 // Connect to mysql database
-func Connect() (*sql.DB, error) {
+func Connect(schema string) (*sql.DB, error) {
 
-	db, err := sql.Open("mysql", "root:password@/isak_tech_paste?parseTime=true")
+	db, err := sql.Open("mysql", fmt.Sprintf("root:password@/%s?parseTime=true", schema))
 	if err != nil {
 		return nil, err
 	}

@@ -9,7 +9,7 @@ import (
 
 // ReadManyController is a controller that can be accessed through /api/posts
 func ReadManyController(c *fiber.Ctx) error {
-	connection := CreateConnection()
+	connection := CreateConnection("isak_tech_paste")
 	posts, err := connection.getPosts()
 	defer connection.Connection.Close()
 

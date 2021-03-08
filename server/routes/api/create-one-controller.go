@@ -9,7 +9,7 @@ import (
 
 // CreateOneController is a controller that can be accessed through /api/new
 func CreateOneController(c *fiber.Ctx) error {
-	connection := CreateConnection()
+	connection := CreateConnection("isak_tech_paste")
 	defer connection.Connection.Close()
 
 	body := new(Post)

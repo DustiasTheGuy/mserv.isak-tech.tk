@@ -21,8 +21,8 @@ type Tag struct {
 }
 
 // CreateConnection attempts to connect to mysql
-func CreateConnection() *SQL {
-	db, err := database.Connect()
+func CreateConnection(schema string) *SQL {
+	db, err := database.Connect(schema)
 
 	if err != nil {
 		return &SQL{
@@ -67,7 +67,7 @@ func (sql *SQL) savePost(post *Post) (int64, error) {
 func (sql *SQL) getPost(ID int64) (Post, error) {
 	var post Post
 
-	db, err := database.Connect()
+	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
 		return post, err

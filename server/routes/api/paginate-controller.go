@@ -9,7 +9,7 @@ import (
 )
 
 func PaginateController(c *fiber.Ctx) error {
-	connection := CreateConnection()
+	connection := CreateConnection("isak_tech_paste")
 	defer connection.Connection.Close()
 
 	page, err := strconv.ParseInt(c.Params("PAGE"), 10, 64)

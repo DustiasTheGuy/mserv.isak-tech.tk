@@ -7,7 +7,7 @@ import (
 )
 
 func DeleteOneHandler(c *fiber.Ctx) error {
-	connection := CreateConnection()
+	connection := CreateConnection("isak_tech_paste")
 	defer connection.Connection.Close()
 
 	var post Post
