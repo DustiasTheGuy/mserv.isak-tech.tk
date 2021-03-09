@@ -1,21 +1,32 @@
 package analytics
 
 import (
-	"paste/routes/api"
+	"paste/routes"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func NewRequestController(c *fiber.Ctx) error {
-	connection := api.CreateConnection("isak_tech_analytics")
-	defer connection.Connection.Close()
+func SaveNewRequestController(c *fiber.Ctx) error {
 
-	return nil
+	return c.JSON(routes.HTTPResponse{
+		Message: "",
+		Success: true,
+		Data:    nil,
+	})
 }
 
-/*
-	ID,
-	Created,
-	IP,
-	Website
-*/
+func GetAllRequestController(c *fiber.Ctx) error {
+	return c.JSON(routes.HTTPResponse{
+		Message: "",
+		Success: true,
+		Data:    nil,
+	})
+}
+
+func GetSingleRequestController(c *fiber.Ctx) error {
+	return c.JSON(routes.HTTPResponse{
+		Message: "",
+		Success: true,
+		Data:    nil,
+	})
+}

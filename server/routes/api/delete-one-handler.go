@@ -1,16 +1,23 @@
 package api
 
 import (
+	"log"
+	"paste/database"
+	"paste/models/post"
 	"paste/routes"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func DeleteOneHandler(c *fiber.Ctx) error {
-	connection := CreateConnection("isak_tech_paste")
-	defer connection.Connection.Close()
+	var post *post.Post
+	db, err := database.Connect("isak_tech_paste")
 
-	var post Post
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
 
 	if err := c.BodyParser(&post); err != nil {
 		return c.JSON(routes.HTTPResponse{
@@ -20,7 +27,7 @@ func DeleteOneHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := connection.deleteOne(post.ID); err != nil {
+	if err := post.DeleteOne(); err != nil {
 		return c.JSON(routes.HTTPResponse{
 			Message: "Internal Server Error",
 			Success: false,

@@ -24,11 +24,12 @@ func main() {
 	api.Get("/post/:ID", routes.ReadOneController)               // get one post
 	api.Delete("/delete", routes.DeleteOneHandler)               // delete a single row
 	api.Put("/update", routes.UpdateOneHandler)                  // update a single row
-	api.Post("/sign-in", routes.SignInController)                // sign in
 	api.Get("/paginate/:PAGE/:LIMIT", routes.PaginateController) // grab posts by page & limit
 
 	analytics := api.Group("/an")
-	analytics.Get("/", an.NewRequestController)
+	analytics.Post("/new", an.SaveNewRequestController)
+	analytics.Get("/one/:id", an.GetSingleRequestController)
+	analytics.Get("/all", an.GetAllRequestController)
 
 	app.Listen(":8082")
 }

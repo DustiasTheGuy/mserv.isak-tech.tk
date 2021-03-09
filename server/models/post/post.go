@@ -1,10 +1,12 @@
-package api
+package post
 
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"math"
 	"paste/database"
+	"time"
 )
 
 // SQL struct contains the state of an SQL connection attempt
@@ -20,33 +22,28 @@ type Tag struct {
 	PostID int64
 }
 
-// CreateConnection attempts to connect to mysql
-func CreateConnection(schema string) *SQL {
-	db, err := database.Connect(schema)
-
-	if err != nil {
-		return &SQL{
-			Error:       err,
-			Established: false,
-			Connection:  nil,
-		}
-	}
-
-	return &SQL{
-		Error:       nil,
-		Established: true,
-		Connection:  db,
-	}
+// Post is a struct for dealing with new Post
+type Post struct {
+	ID    int64     `json:"id"`
+	Title string    `json:"title"`
+	Body  string    `json:"body"`
+	Date  time.Time `json:"date"`
+	IP    string    `json:"-"`
+	Tags  []string  `json:"tags"`
 }
 
 // save a new post to the database
 // first return value defaults to 0 if an error has occured
-func (sql *SQL) savePost(post *Post) (int64, error) {
-	fmt.Printf("%s\n", post.Title)
-	fmt.Printf("%s\n", post.Body)
-	fmt.Printf("%s\n", post.IP)
+func (post *Post) SavePost() (int64, error) {
+	db, err := database.Connect("isak_tech_paste")
 
-	res, err := sql.Connection.Exec(
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
+	res, err := db.Exec(
 		"INSERT INTO posts (title, body, ip) VALUES (?, ?, ?)",
 		post.Title, post.Body, post.IP)
 
@@ -64,7 +61,7 @@ func (sql *SQL) savePost(post *Post) (int64, error) {
 }
 
 // GetPosts from database
-func (sql *SQL) getPost(ID int64) (Post, error) {
+func GetPost(ID int64) (Post, error) {
 	var post Post
 
 	db, err := database.Connect("isak_tech_paste")
@@ -79,7 +76,7 @@ func (sql *SQL) getPost(ID int64) (Post, error) {
 		return post, err
 	}
 
-	tags, err := sql.getTags(ID)
+	tags, err := post.GetTags()
 
 	if err != nil {
 		return post, err
@@ -90,10 +87,18 @@ func (sql *SQL) getPost(ID int64) (Post, error) {
 }
 
 // GetPosts from database
-func (sql *SQL) getPosts() ([]Post, error) {
+func GetPosts() ([]Post, error) {
+	db, err := database.Connect("isak_tech_paste")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
 	var Posts []Post
 
-	rows, err := sql.Connection.Query("SELECT * FROM posts")
+	rows, err := db.Query("SELECT * FROM posts")
 
 	if err != nil {
 		return nil, err
@@ -107,7 +112,7 @@ func (sql *SQL) getPosts() ([]Post, error) {
 			return nil, err
 		}
 
-		tags, err := sql.getTags(post.ID)
+		tags, err := post.GetTags()
 
 		if err != nil {
 			return nil, err
@@ -120,10 +125,18 @@ func (sql *SQL) getPosts() ([]Post, error) {
 	return Posts, nil
 }
 
-func (sql *SQL) getTags(postID int64) ([]string, error) {
+func (post *Post) GetTags() ([]string, error) {
+	db, err := database.Connect("isak_tech_paste")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
 	var tags []string
 
-	rows, err := sql.Connection.Query("SELECT * FROM tags WHERE postid=? ORDER BY id DESC LIMIT 5", postID)
+	rows, err := db.Query("SELECT * FROM tags WHERE postid=? ORDER BY id DESC LIMIT 5", post.ID)
 
 	if err != nil {
 		return nil, err
@@ -142,18 +155,26 @@ func (sql *SQL) getTags(postID int64) ([]string, error) {
 	return tags, nil
 }
 
-func (sql *SQL) insertTags(postID int64, tags []string) error {
+func (post *Post) InsertTags() error {
+	db, err := database.Connect("isak_tech_paste")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
 	var sqlString string = "INSERT INTO tags (tag, postid) VALUES"
 
-	for i := 0; i < len(tags); i++ {
-		if i == len(tags)-1 {
-			sqlString += fmt.Sprintf("('%s', %d);", tags[i], postID)
+	for i := 0; i < len(post.Tags); i++ {
+		if i == len(post.Tags)-1 {
+			sqlString += fmt.Sprintf("('%s', %d);", post.Tags[i], post.ID)
 		} else {
-			sqlString += fmt.Sprintf("('%s', %d), ", tags[i], postID)
+			sqlString += fmt.Sprintf("('%s', %d), ", post.Tags[i], post.ID)
 		}
 	}
 
-	_, err := sql.Connection.Exec(sqlString)
+	_, err = db.Exec(sqlString)
 
 	if err != nil {
 		return err
@@ -162,8 +183,16 @@ func (sql *SQL) insertTags(postID int64, tags []string) error {
 	return nil
 }
 
-func (sql *SQL) deleteOne(postID int64) error {
-	r, err := sql.Connection.Exec("DELETE FROM posts WHERE id=?", postID)
+func (post *Post) DeleteOne() error {
+	db, err := database.Connect("isak_tech_paste")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
+	r, err := db.Exec("DELETE FROM posts WHERE id=?", post.ID)
 
 	if err != nil {
 		return err
@@ -176,9 +205,16 @@ func (sql *SQL) deleteOne(postID int64) error {
 	return nil
 }
 
-func (sql *SQL) updateOne(post *Post) error {
+func (post *Post) UpdateOne() error {
+	db, err := database.Connect("isak_tech_paste")
 
-	_, err := sql.Connection.Exec(
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
+	_, err = db.Exec(
 		"UPDATE posts SET title=?, body=? WHERE id=?",
 		post.Title, post.Body, post.ID)
 
@@ -186,21 +222,29 @@ func (sql *SQL) updateOne(post *Post) error {
 		return err
 	}
 
-	if err := sql.insertTags(post.ID, post.Tags); err != nil {
+	if err := post.InsertTags(); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (sql *SQL) paginate(limit, start int64) (map[string]interface{}, error) {
-	rows, err := sql.Connection.Query("SELECT * FROM posts LIMIT ? OFFSET ?", limit, start)
+func Paginate(limit, start int64) (map[string]interface{}, error) {
+	db, err := database.Connect("isak_tech_paste")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM posts LIMIT ? OFFSET ?", limit, start)
 
 	if err != nil {
 		return nil, err
 	}
 
-	row, err := sql.Connection.Query("SELECT COUNT(*) FROM posts")
+	row, err := db.Query("SELECT COUNT(*) FROM posts")
 
 	if err != nil {
 		return nil, err
@@ -222,7 +266,7 @@ func (sql *SQL) paginate(limit, start int64) (map[string]interface{}, error) {
 			return nil, err
 		}
 
-		tags, err := sql.getTags(post.ID)
+		tags, err := post.GetTags()
 
 		if err != nil {
 			return nil, err

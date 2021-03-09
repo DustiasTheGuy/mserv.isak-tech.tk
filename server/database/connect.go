@@ -10,7 +10,6 @@ import (
 
 // Connect to mysql database
 func Connect(schema string) (*sql.DB, error) {
-
 	db, err := sql.Open("mysql", fmt.Sprintf("root:password@/%s?parseTime=true", schema))
 	if err != nil {
 		return nil, err

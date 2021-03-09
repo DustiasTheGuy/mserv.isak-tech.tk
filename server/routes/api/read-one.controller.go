@@ -1,6 +1,9 @@
 package api
 
 import (
+	"log"
+	"paste/database"
+	"paste/models/post"
 	"paste/routes"
 	"strconv"
 
@@ -9,9 +12,14 @@ import (
 
 // ReadOneController is a controller that can be accessed through /api/post/:ID
 func ReadOneController(c *fiber.Ctx) error {
-	connection := CreateConnection("isak_tech_paste")
+	db, err := database.Connect("isak_tech_paste")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	ID, err := strconv.ParseInt(c.Params("ID"), 10, 32)
-	defer connection.Connection.Close()
+	defer db.Close()
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{
@@ -21,7 +29,7 @@ func ReadOneController(c *fiber.Ctx) error {
 		})
 	}
 
-	post, err := connection.getPost(ID)
+	post, err := post.GetPost(ID)
 
 	if err != nil {
 		return c.JSON(routes.HTTPResponse{

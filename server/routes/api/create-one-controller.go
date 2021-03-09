@@ -1,7 +1,9 @@
 package api
 
 import (
-	"fmt"
+	"log"
+	"paste/database"
+	"paste/models/post"
 	"paste/routes"
 
 	"github.com/gofiber/fiber/v2"
@@ -9,13 +11,16 @@ import (
 
 // CreateOneController is a controller that can be accessed through /api/new
 func CreateOneController(c *fiber.Ctx) error {
-	connection := CreateConnection("isak_tech_paste")
-	defer connection.Connection.Close()
+	connection, err := database.Connect("isak_tech_paste")
 
-	body := new(Post)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer connection.Close()
+
+	var body *post.Post
 	body.IP = c.Hostname()
-
-	fmt.Println(body)
 
 	if err := c.BodyParser(body); err != nil {
 		return c.JSON(routes.HTTPResponse{
@@ -25,9 +30,9 @@ func CreateOneController(c *fiber.Ctx) error {
 		})
 	}
 
-	lastID, err := connection.savePost(body)
+	lastID, err := body.SavePost()
 
-	if err := connection.insertTags(lastID, body.Tags); err != nil {
+	if err := body.InsertTags(); err != nil {
 		return c.JSON(routes.HTTPResponse{
 			Message: "Internal Server Error",
 			Success: false,

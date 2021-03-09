@@ -2,17 +2,24 @@ package api
 
 import (
 	"log"
+	"paste/database"
+	"paste/models/post"
 	"paste/routes"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func UpdateOneHandler(c *fiber.Ctx) error {
-	var body Post
-	connection := CreateConnection("isak_tech_paste")
-	defer connection.Connection.Close()
+	var post *post.Post
+	db, err := database.Connect("isak_tech_paste")
 
-	if err := c.BodyParser(&body); err != nil {
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer db.Close()
+
+	if err := c.BodyParser(&post); err != nil {
 		return c.JSON(routes.HTTPResponse{
 			Message: "Bad JSON Formatting",
 			Success: false,
@@ -20,7 +27,7 @@ func UpdateOneHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := connection.updateOne(&body); err != nil {
+	if err := post.UpdateOne(); err != nil {
 		log.Fatal(err)
 	}
 
