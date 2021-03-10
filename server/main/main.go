@@ -2,15 +2,17 @@ package main
 
 import (
 	"paste/middleware"
-	an "paste/routes/analytics"
-	routes "paste/routes/api"
+	"paste/routes/analytics"
+	"paste/routes/api"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		Immutable: true,
+	})
 	app.Static("/", "./public")
 	app.Use(cors.New())
 
@@ -18,18 +20,18 @@ func main() {
 		return c.SendFile("index.html")
 	})
 
-	api := app.Group("/api", middleware.APIMiddleware)
-	api.Post("/new", routes.CreateOneController)                 // add new post
-	api.Get("/posts", routes.ReadManyController)                 // get all posts
-	api.Get("/post/:ID", routes.ReadOneController)               // get one post
-	api.Delete("/delete", routes.DeleteOneHandler)               // delete a single row
-	api.Put("/update", routes.UpdateOneHandler)                  // update a single row
-	api.Get("/paginate/:PAGE/:LIMIT", routes.PaginateController) // grab posts by page & limit
+	apiRouter := app.Group("/api", middleware.APIMiddleware)
+	apiRouter.Post("/new", api.CreateOneController)                 // add new post
+	apiRouter.Get("/posts", api.ReadManyController)                 // get all posts
+	apiRouter.Get("/post/:ID", api.ReadOneController)               // get one post
+	apiRouter.Delete("/delete", api.DeleteOneHandler)               // delete a single row
+	apiRouter.Put("/update", api.UpdateOneHandler)                  // update a single row
+	apiRouter.Get("/paginate/:PAGE/:LIMIT", api.PaginateController) // grab posts by page & limit
 
-	analytics := api.Group("/an")
-	analytics.Post("/new", an.SaveNewRequestController)
-	analytics.Get("/one/:id", an.GetSingleRequestController)
-	analytics.Get("/all", an.GetAllRequestController)
+	analyticsRouter := app.Group("/analytics")
+	analyticsRouter.Post("/create", analytics.SaveNewRequestController)
+	analyticsRouter.Get("/load/load_all", analytics.GetAllRequestController)
+	analyticsRouter.Get("/load/:id", analytics.GetSingleRequestController)
 
 	app.Listen(":8082")
 }
