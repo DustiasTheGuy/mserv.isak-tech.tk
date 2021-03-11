@@ -1,7 +1,6 @@
 package request
 
 import (
-	"log"
 	"paste/database"
 	"time"
 )
@@ -17,7 +16,7 @@ func (req *Request) SaveRequest() error {
 	db, err := database.Connect("isak_tech_analytics")
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	defer db.Close()
@@ -33,7 +32,7 @@ func GetAllRequests() []Request {
 	db, err := database.Connect("isak_tech_analytics")
 
 	if err != nil {
-		log.Fatal(err)
+		return nil
 	}
 
 	defer db.Close()
@@ -66,10 +65,10 @@ func (req *Request) GetSingleRequest() *Request {
 	db, err := database.Connect("isak_tech_analytics")
 
 	if err != nil {
-		log.Fatal(err)
+		return nil
 	}
 
 	defer db.Close()
 
-	return nil
+	return &Request{}
 }

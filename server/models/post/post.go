@@ -3,7 +3,6 @@ package post
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"math"
 	"paste/database"
 	"time"
@@ -38,7 +37,7 @@ func (post *Post) SavePost() (int64, error) {
 	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
-		log.Fatal(err)
+		return 0, err
 	}
 
 	defer db.Close()
@@ -91,7 +90,7 @@ func GetPosts() ([]Post, error) {
 	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	defer db.Close()
@@ -129,7 +128,7 @@ func (post *Post) GetTags() ([]string, error) {
 	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	defer db.Close()
@@ -159,7 +158,7 @@ func (post *Post) InsertTags() error {
 	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	defer db.Close()
@@ -187,7 +186,7 @@ func (post *Post) DeleteOne() error {
 	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	defer db.Close()
@@ -209,7 +208,7 @@ func (post *Post) UpdateOne() error {
 	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	defer db.Close()
@@ -233,7 +232,7 @@ func Paginate(limit, start int64) (map[string]interface{}, error) {
 	db, err := database.Connect("isak_tech_paste")
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	defer db.Close()
